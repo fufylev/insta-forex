@@ -1,23 +1,39 @@
-import { FETCH_QUOTES } from "../types";
+import { FETCH_QUOTES, FILTER_BY_SEARCH, FETCH_QUOTE } from "../types";
 
-// const handlers = {
-//   [FETCH_QUOTES]: (state, action) => ({ ...state, quotes: action.payload }),
-//   DEFAULT: state => state,
-// };
-//
-// export const DetailsReducer = (state, action) => {
-//   const handler = handlers[action.type] || handlers.DEFAULT;
-//   return handler(state, action.payload);
-// };
 export const DetailsReducer = (state, action) => {
   switch (action.type) {
-    case FETCH_QUOTES:
+    case FETCH_QUOTES: {
       return {
         ...state,
         quotes: [
           ...action.payload
         ],
-      };
+        quotesFiltered: [
+          ...action.payload
+        ],
+      }
+    }
+
+    case FILTER_BY_SEARCH: {
+      const matchesFilter = new RegExp(action.payload, 'i')
+
+      return {
+        ...state,
+        quotesFiltered: [
+          ...state.quotes.filter(quote => matchesFilter.test(quote.symbol))
+        ],
+      }
+    }
+
+    case FETCH_QUOTE: {
+      return {
+        ...state,
+        quote: [
+          ...action.payload
+        ],
+      }
+    }
+
     default:
       return state;
   }
