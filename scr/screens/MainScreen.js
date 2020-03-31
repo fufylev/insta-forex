@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
-import { View, StyleSheet, TextInput, Dimensions, FlatList, Image } from 'react-native';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Dimensions, FlatList, Image, StyleSheet, TextInput, View } from 'react-native';
 import { DetailsContext } from "../context/details/DetailsContext";
 import { MainContext } from "../context/main/MainContext";
 import { THEME } from "../theme";
@@ -9,20 +9,22 @@ import { AppLoader } from "../components/custom_ui/AppLoader";
 import Quote from "../components/Quote";
 
 const MainScreen = () => {
-  const { fetchQuotes, quotes, loading, error } = useContext(DetailsContext);
-  const { changeScreen } = useContext(MainContext);
+  const {fetchQuotes, quotes, quotesFiltered, filterQuotes, loading, error} = useContext(DetailsContext);
+  const {changeScreen} = useContext(MainContext);
   const [deviceWidth, setDeviceWidth] = useState(Dimensions.get('window').width - THEME.PADDING_HORIZONTAL * 2);
-  const [valueSearched, onChangeValueSearched] = useState('');
-  const [quotesFiltered, onChangeQuotesFiltered] = useState('');
+  const [value, onChangeText] = useState('');
 
   const loadQuotes = useCallback(async () => {
     await fetchQuotes();
-    quotesFilteredBySearch()
   }, [fetchQuotes]);
 
   useEffect(() => {
     loadQuotes();
   }, []);
+
+  useEffect(() => {
+    filterQuotes(value)
+  }, [value]);
 
   useEffect(() => {
     const update = () => {
@@ -38,7 +40,7 @@ const MainScreen = () => {
   });
 
   if (loading) {
-    return <AppLoader />;
+    return <AppLoader/>;
   }
 
   if (error) {
@@ -51,11 +53,11 @@ const MainScreen = () => {
   }
 
   let content = (
-    <View style={{ width: deviceWidth, flex: 1 }}>
+    <View style={{width: deviceWidth, flex: 1}}>
       <FlatList
         keyExtractor={item => item.symbol}
         data={quotesFiltered}
-        renderItem={({ item }) => <Quote quote={item} onOpen={changeScreen} />}
+        renderItem={({item}) => <Quote quote={item} onOpen={changeScreen}/>}
       />
     </View>
   );
@@ -63,31 +65,23 @@ const MainScreen = () => {
   if (quotes.length === 0) {
     content = (
       <View style={styles.imgWrap}>
-        <Image style={styles.image} source={require('../../assets/no-items.png')} />
+        <Image style={styles.image} source={require('../../assets/no-items.png')}/>
       </View>
     );
   }
 
-  const quotesFilteredBySearch = () => {
-    const matchesFilter = new RegExp(valueSearched, 'i')
-    if (valueSearched.length > 0 ) {
-      onChangeQuotesFiltered(quotes.filter(quote => matchesFilter.test(quote.symbol)))
-    }
-    onChangeQuotesFiltered(quotes)
-  }
-
   const onChangeTextHandler = (text) => {
-    onChangeValueSearched(text);
-    quotesFilteredBySearch()
+    onChangeText(text);
+    filterQuotes(text)
   }
 
   return (
     <View style={styles.container}>
       <TextInput
-        style={{...styles.input,  width: deviceWidth }}
+        style={{...styles.input, width: deviceWidth}}
         onChangeText={text => onChangeTextHandler(text)}
         placeholder='Search.....'
-        value={valueSearched}
+        value={value}
       />
       {content}
     </View>

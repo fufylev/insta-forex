@@ -3,7 +3,6 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { THEME } from '../theme';
 import AppTextBold from "./custom_ui/AppTextBold";
-import AppCard from "./custom_ui/AppCard";
 
 const Quote = ({ quote, onOpen }) => {
   return (

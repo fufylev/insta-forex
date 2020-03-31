@@ -16,7 +16,8 @@ function MyStatusBar({backgroundColor, ...props}) {
 }
 
 const Main = () => {
-  const { todoId } = useContext(MainContext);
+  const { quoteId } = useContext(MainContext);
+
   return (
     <View style={styles.container}>
       <MyStatusBar
@@ -24,7 +25,7 @@ const Main = () => {
         barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
       />
       <NavBar title="Insta Forex Quotes"/>
-      <View style={styles.container}>{todoId ? <DetailsScreen/> : <MainScreen/>}</View>
+      <View style={styles.container}>{quoteId ? <DetailsScreen/> : <MainScreen/>}</View>
     </View>
   )
 };
