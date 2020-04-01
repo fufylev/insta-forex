@@ -1,8 +1,7 @@
-import React, { useContext, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import axios from 'axios'
 import { DetailsContext } from "./DetailsContext";
 import { DetailsReducer } from "./DetailsReducer";
-import { MainContext } from "../main/MainContext";
 import {
   CLEAR_ERROR,
   FETCH_QUOTE,
@@ -23,7 +22,6 @@ const DetailsState = ({children}) => {
   };
 
   const [state, dispatch] = useReducer(DetailsReducer, initialSate);
-  // const {changeScreen} = useContext(MainContext);
 
   const fetchQuote = async (quoteId) => {
     const query = quoteId.replace('#','%23');
