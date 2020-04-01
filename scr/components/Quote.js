@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { THEME } from '../theme';
 import AppTextBold from "./custom_ui/AppTextBold";
+import { DetailsContext } from "../context/details/DetailsContext";
 
-const Quote = ({ quote, onOpen }) => {
+const Quote = ({ quote, onOpen, init }) => {
+  const {
+    itemsPerPage,
+    startIndex,
+    lastIndex
+  } = useContext(DetailsContext);
+
   return (
-    <TouchableOpacity onPress={() => onOpen(quote)}>
+    <TouchableOpacity onPress={() => {
+      onOpen(quote);
+      init({startIndex: startIndex, lastIndex: lastIndex, itemsNumber: itemsPerPage})
+    }}>
       <View style={styles.quote}>
         <AppTextBold style={{fontSize: 26}}>{quote.symbol}</AppTextBold>
       </View>
@@ -31,6 +41,7 @@ const styles = StyleSheet.create({
 Quote.propTypes = {
   quote: PropTypes.object,
   onOpen: PropTypes.func,
+  init: PropTypes.func,
 };
 
 export default Quote;

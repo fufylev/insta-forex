@@ -9,7 +9,10 @@ import {
   FILTER_BY_SEARCH,
   HIDE_LOADER,
   SHOW_ERROR,
-  SHOW_LOADER
+  SHOW_LOADER,
+  PAGINATE_NEXT,
+  PAGINATE_PREV,
+  PAGINATE_INIT
 } from '../types';
 
 const DetailsState = ({children}) => {
@@ -17,6 +20,9 @@ const DetailsState = ({children}) => {
     quotes: [],
     quote: [],
     quotesFiltered: [],
+    startIndex: 0,
+    lastIndex: 6,
+    itemsPerPage: 6,
     loading: false,
     error: null,
   };
@@ -55,14 +61,28 @@ const DetailsState = ({children}) => {
   };
 
   const filterQuotes = (text = '') => {
-    dispatch({type: FILTER_BY_SEARCH, payload: text})
+    if (text.length > 0) {
+      dispatch({type: FILTER_BY_SEARCH, payload: text})
+    }
   };
+
+  const init = ({startIndex, lastIndex, itemsNumber}) => {
+    dispatch({type: PAGINATE_INIT, payload: {startIndex, lastIndex, itemsNumber}})
+  }
+
+  const paginate = (action) => {
+    if (action === 'next') {
+      dispatch({type: PAGINATE_NEXT})
+    } else {
+      dispatch({type: PAGINATE_PREV})
+    }
+  }
 
   const showLoader = () => dispatch({type: SHOW_LOADER});
   const hideLoader = () => dispatch({type: HIDE_LOADER});
 
   const showError = error => dispatch({type: SHOW_ERROR, error});
-  const clearError = error => dispatch({type: CLEAR_ERROR});
+  const clearError = () => dispatch({type: CLEAR_ERROR});
 
   return (
     <DetailsContext.Provider
@@ -72,9 +92,14 @@ const DetailsState = ({children}) => {
         quotesFiltered: state.quotesFiltered,
         loading: state.loading,
         error: state.error,
+        startIndex: state.startIndex,
+        lastIndex: state.lastIndex,
+        itemsPerPage: state.itemsPerPage,
         fetchQuotes,
         fetchQuote,
-        filterQuotes
+        filterQuotes,
+        paginate,
+        init
       }}
     >
       {children}

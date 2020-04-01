@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { MainContext } from "../context/main/MainContext";
 import AppButton from "../components/custom_ui/AppButton";
 import { AntDesign } from '@expo/vector-icons';
@@ -60,7 +60,7 @@ const DetailsScreen = () => {
       )}
       <View style={styles.button}>
         <AppButton color={THEME.GREY_COLOR} onPress={() => changeScreen({"symbol": null})}>
-          <AntDesign name="back" size={20}/>
+          <AntDesign name="back" size={40}/>
         </AppButton>
       </View>
     </View>

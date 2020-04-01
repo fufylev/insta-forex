@@ -9,7 +9,7 @@ export const MainReducer = (state, action) => {
         quoteData: action.payload,
         header: action.payload.symbol === null ?
           'Insta Forex Quotes'
-          : action.payload.description.length > 0 ? action.payload.description : action.payload.symbol,
+          : action.payload.symbol,
       }
     }
 
