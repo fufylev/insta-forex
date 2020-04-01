@@ -6,6 +6,7 @@ import { MainReducer } from "./MainReducer";
 const MainState = ({children}) => {
   const initialSate = {
     quoteId: null,
+    header: 'Insta Forex Quotes',
     quoteData: {},
 
   };
@@ -18,7 +19,8 @@ const MainState = ({children}) => {
       value={{
         changeScreen,
         quoteId: state.quoteId,
-        quoteData: state.quoteData
+        quoteData: state.quoteData,
+        header: state.header,
       }}
     >
       {children}

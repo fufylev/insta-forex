@@ -1,14 +1,4 @@
-import { CHANGE_SCREEN, FETCH_QUOTE, FETCH_QUOTES, FILTER_BY_SEARCH } from "../types";
-
-// const handlers = {
-//   [CHANGE_SCREEN]: (state, payload) => payload,
-//   DEFAULT: state => state,
-// };
-//
-// export const MainReducer = (state, action) => {
-//   const handler = handlers[action.type] || handlers.DEFAULT;
-//   return handler(state, action.payload);
-// };
+import { CHANGE_SCREEN } from "../types";
 
 export const MainReducer = (state, action) => {
   switch (action.type) {
@@ -17,6 +7,9 @@ export const MainReducer = (state, action) => {
         ...state,
         quoteId: action.payload.symbol,
         quoteData: action.payload,
+        header: action.payload.symbol === null ?
+          'Insta Forex Quotes'
+          : action.payload.symbol,
       }
     }
 
