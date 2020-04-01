@@ -6,7 +6,7 @@ import AppTextBold from "./custom_ui/AppTextBold";
 
 const Quote = ({ quote, onOpen }) => {
   return (
-    <TouchableOpacity onPress={() => onOpen(quote.symbol)}>
+    <TouchableOpacity onPress={() => onOpen(quote)}>
       <View style={styles.quote}>
         <AppTextBold style={{fontSize: 26}}>{quote.symbol}</AppTextBold>
       </View>

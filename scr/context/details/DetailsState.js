@@ -21,14 +21,16 @@ const DetailsState = ({children}) => {
     loading: false,
     error: null,
   };
+
   const [state, dispatch] = useReducer(DetailsReducer, initialSate);
-  const {changeScreen} = useContext(MainContext);
+  // const {changeScreen} = useContext(MainContext);
 
   const fetchQuote = async (quoteId) => {
+    const query = quoteId.replace('#','%23');
     showLoader();
     clearError();
     try {
-      const response = await axios.get(`https://quotes.instaforex.com/api/quotesTick?q=${quoteId}`);
+      const response = await axios.get(`https://quotes.instaforex.com/api/quotesTick?q=${query}`);
       const quote = response.data;
       dispatch({type: FETCH_QUOTE, payload: quote});
     } catch (e) {

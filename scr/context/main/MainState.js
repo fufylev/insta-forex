@@ -4,15 +4,21 @@ import { MainContext } from "./MainContext";
 import { MainReducer } from "./MainReducer";
 
 const MainState = ({children}) => {
-  const [state, dispatch] = useReducer(MainReducer, null);
+  const initialSate = {
+    quoteId: null,
+    quoteData: {},
 
-  const changeScreen = id => dispatch({type: CHANGE_SCREEN, payload: id});
+  };
+  const [state, dispatch] = useReducer(MainReducer, initialSate);
+
+  const changeScreen = quote => dispatch({type: CHANGE_SCREEN, payload: quote});
 
   return (
     <MainContext.Provider
       value={{
         changeScreen,
-        quoteId: state,
+        quoteId: state.quoteId,
+        quoteData: state.quoteData
       }}
     >
       {children}
